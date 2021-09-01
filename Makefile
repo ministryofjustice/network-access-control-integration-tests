@@ -15,7 +15,7 @@ clone-server:
 	git clone git@github.com:ministryofjustice/network-access-control-server.git
 
 serve: stop
-	cd ${ADMIN} && make authenticate-docker build-dev serve && cd -
+	cd ${ADMIN} && make authenticate-docker build-dev db-setup serve && cd -
 	cd ${SERVER} && make authenticate-docker build-dev generate-certs serve && cd -
 
 test: serve
