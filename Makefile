@@ -9,10 +9,10 @@ clean: stop
 	rm -fr ./network-access-control-admin ./network-access-control-server
 
 clone-admin:
-	git clone git@github.com:ministryofjustice/network-access-control-admin.git
+	git clone https://github.com/ministryofjustice/network-access-control-admin.git
 
 clone-server:
-	git clone git@github.com:ministryofjustice/network-access-control-server.git
+	git clone https://github.com/ministryofjustice/network-access-control-server.git
 
 serve: stop
 	cd ${ADMIN} && make authenticate-docker build-dev db-setup serve && cd -
