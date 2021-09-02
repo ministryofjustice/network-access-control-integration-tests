@@ -19,6 +19,6 @@ serve: stop
 	cd ${SERVER} && make authenticate-docker build-dev generate-certs serve && cd -
 
 test: serve
-	cd ${SERVER} && make test && cd -
+	cd ${SERVER} && make test && make integration-test && cd -
 
 .PHONY: run build stop clone-server clone-admin
