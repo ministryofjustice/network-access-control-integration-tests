@@ -1,6 +1,6 @@
 # Network Access Control Integration Tests
 
-This is the integration test suite for the Network Access Control (NAC)
+This is the integration test suite for the Network Access Control (NAC) service.
 
 ## Getting Started
 The integration test suite is dependent on the [Network Access Control Server](https://github.com/ministryofjustice/network-access-control-server) and [Network Access Control Admin](https://github.com/ministryofjustice/network-access-control-admin) repositories.
@@ -9,8 +9,7 @@ Clone the repositories:
 ```bash
 make clone-server
 ```
-and 
-
+and then
 ```bash
 make clone-admin
 ```
@@ -38,5 +37,5 @@ make serve
 ```
 and running the tests from the client container
 ```bash
-make shell-client
+cd network-access-control-server && make shell-client
 ```
