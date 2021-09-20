@@ -1,0 +1,105 @@
+version: "3.4"
+
+services:
+  client:
+    build:
+      context: .
+      args:
+        SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
+    volumes:
+      - './test:/test'
+    expose:
+      - "1812/udp"
+      - "1813/udp"
+      - "2083/tcp"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: network_access_control_development_admin
+      CONTAINER_NAME: "test-client"
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.6
+      adminnet:
+
+  radsecproxy:
+    build:
+      context: ./test/radsecproxy
+      args:
+        SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
+    volumes:
+      - './test/certs:/certs'
+    expose:
+      - "1812/udp"
+      - "1813/udp"
+      - "2083/tcp"
+      - "18120/udp"
+    environment:
+      CONTAINER_NAME: "radsecproxy"
+      EAP_PRIVATE_KEY_PASSWORD: "whatever"
+      RADSEC_PRIVATE_KEY_PASSWORD: "whatever"
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.8
+  
+  server:
+    build:
+      context: ./network-access-control-server/
+      args: 
+        SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
+    expose:
+      - "1812/udp"
+      - "1813/udp"
+      - "2083/tcp"
+    volumes:
+      - './test:/test'
+      - './authorised_macs:/etc/freeradius/3.0/authorised_macs'
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: network_access_control_development_admin
+      ENABLE_OCSP: "no"
+      OCSP_OVERRIDE_CERT_URL: "yes"
+      OCSP_URL: "127.0.0.1:9999"
+      LOCAL_DEVELOPMENT: "true"
+      CONTAINER_NAME: "server"
+      ENABLE_CRL: "no"
+      EAP_PRIVATE_KEY_PASSWORD: "whatever"
+      RADSEC_PRIVATE_KEY_PASSWORD: "whatever"
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.5
+      adminnet:
+
+  certgenerator:
+    build:
+      context: ./test/generate_certs
+      args:
+        SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
+    command: sh -c "/bootstrap.sh"
+
+  crl:
+    build:
+      context: ./crl
+      args:
+        SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
+    volumes:
+      - ./crl/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - './test/certs/ca.crl:/test/ca.crl'
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.9
+      adminnet:
+
+networks:
+  vpcbr:
+    name: vpcbr
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+  adminnet:
+    external: true
+    name: adminnet
