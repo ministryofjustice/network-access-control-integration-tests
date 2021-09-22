@@ -2,8 +2,8 @@
 
 set -ex
 
-setup_test_matching_policy() {
-  mysql -u${DB_USER} -p${DB_PASS} -h${DB_HOST} ${DB_NAME} < /test/policy_engine_data/test_matching_policy.sql
+populate_test_data() {
+  mysql -u${DB_USER} -p${DB_PASS} -h${DB_HOST} ${DB_NAME} < $1
 }
 
 test_matching_policy() {
@@ -24,18 +24,27 @@ assert_policy_result() {
   grep "Value: 373737" /integration-results
 }
 
+assert_prioritised_policy_result() {
+  grep "Attribute 18 (Reply-Message) length=19" /integration-results
+  grep "Value: 'Second Policy hit'" /integration-results
+}
+
 assert_fallback_policy_result() {
   grep "Attribute 18 (Reply-Message) length=17" /integration-results
   grep "Value: 'Fallback Policy'" /integration-results
 }
 
 main() {
-  setup_test_matching_policy
+  populate_test_data /test/policy_engine_data/test_matching_policy.sql
   test_matching_policy > /integration-results
   assert_policy_result
   
   test_fallback_policy > /integration-results
   assert_fallback_policy_result
+
+  populate_test_data /test/policy_engine_data/reordered_policies.sql
+  test_matching_policy > /integration-results
+  assert_prioritised_policy_result
 }
 
 main

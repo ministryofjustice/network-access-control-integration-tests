@@ -20,10 +20,10 @@ VALUES
 	(1,'Test Matching Policy','Test Matching Policy',now(),now(),0),
 	(2,'Fallback','Some fallback policy',now(),now(),1);
 
-INSERT INTO `site_policies` (`policy_id`, `site_id`, `created_at`, `updated_at`)
+INSERT INTO `site_policies` (`id`, `site_id`, `policy_id`, `priority`, `created_at`, `updated_at`)
 VALUES
-	(1,1, now(), now()),
-	(2,1, now(), now());
+	(1,1,1,1,now(),now()),
+	(2,1,2,2,now(),now());
 
 INSERT INTO `responses` (`id`, `response_attribute`, `value`, `created_at`, `updated_at`, `mac_authentication_bypass_id`, `policy_id`)
 VALUES
