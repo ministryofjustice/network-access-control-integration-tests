@@ -1,9 +1,13 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 populate_test_data() {
-  mysql -u${DB_USER} -p${DB_PASS} -h${DB_HOST} ${DB_NAME} < $1
+  mysql -u${DB_USER} -p${DB_PASS} -h${DB_HOST} ${DB_NAME} < /test/policy_engine_data/test_matching_policy.sql
+}
+
+update_policy_priority() {
+  mysql -u${DB_USER} -p${DB_PASS} -h${DB_HOST} ${DB_NAME} -e "UPDATE site_policies SET priority = 1 where id = 3;"
 }
 
 test_matching_policy() {
@@ -25,8 +29,8 @@ assert_policy_result() {
 }
 
 assert_prioritised_policy_result() {
-  grep "Attribute 18 (Reply-Message) length=19" /integration-results
-  grep "Value: 'Second Policy hit'" /integration-results
+  grep "Attribute 18 (Reply-Message) length=24" /integration-results
+  grep "Value: 'Prioritised Policy hit'"  /integration-results
 }
 
 assert_fallback_policy_result() {
@@ -35,14 +39,14 @@ assert_fallback_policy_result() {
 }
 
 main() {
-  populate_test_data /test/policy_engine_data/test_matching_policy.sql
+  populate_test_data
   test_matching_policy > /integration-results
   assert_policy_result
   
   test_fallback_policy > /integration-results
   assert_fallback_policy_result
 
-  populate_test_data /test/policy_engine_data/reordered_policies.sql
+  update_policy_priority
   test_matching_policy > /integration-results
   assert_prioritised_policy_result
 }
