@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 populate_test_data() {
   mysql -u${DB_USER} -p${DB_PASS} -h${DB_HOST} ${DB_NAME} < /test/policy_engine_data/test_matching_policy.sql
 }
@@ -18,6 +16,11 @@ test_fallback_policy() {
   eapol_test -r0 -t3 -c /test/config/eapol_test_tls.conf -a 10.5.0.5 -s testing \
   -N4:x:0x0a090807 # random octet IP address to cause fallback to initiate 
 }
+
+test_postauth_reject() {
+  # revoked cert can be used to reject the authorisation
+  eapol_test -r0 -t3 -c /test/config/eapol_test_crl.conf -a 10.5.0.5 -s testing 
+} 
 
 assert_policy_result() {
   grep "Attribute 64 (Tunnel-Type) length=6" /integration-results
@@ -39,16 +42,19 @@ assert_fallback_policy_result() {
 }
 
 main() {
-  populate_test_data
-  test_matching_policy > /integration-results
-  assert_policy_result
+  # populate_test_data
+  # test_matching_policy > /integration-results
+  # assert_policy_result
   
-  test_fallback_policy > /integration-results
-  assert_fallback_policy_result
+  # test_fallback_policy >> /integration-results
+  # assert_fallback_policy_result
 
-  update_policy_priority
-  test_matching_policy > /integration-results
-  assert_prioritised_policy_result
+  # update_policy_priority
+  # test_matching_policy >> /integration-results
+  # assert_prioritised_policy_result
+
+  test_postauth_reject >> /integration-results
+  assert_fallback_policy_result
 }
 
 main
