@@ -46,16 +46,16 @@ assert_fallback_policy_result() {
 }
 
 main() {
-  # populate_test_data
-  # test_matching_policy > /integration-results
-  # assert_policy_result
+  populate_test_data
+  test_matching_policy > /integration-results
+  assert_policy_result
   
-  # test_fallback_policy >> /integration-results
-  # assert_fallback_policy_result
+  test_fallback_policy >> /integration-results
+  assert_fallback_policy_result
 
-  # update_policy_priority
-  # test_matching_policy >> /integration-results
-  # assert_prioritised_policy_result
+  update_policy_priority
+  test_matching_policy >> /integration-results
+  assert_prioritised_policy_result
 
   test_postauth_reject >> /integration-results
   assert_fallback_policy_result
