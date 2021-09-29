@@ -18,8 +18,12 @@ test_fallback_policy() {
 }
 
 test_postauth_reject() {
-  # revoked cert can be used to reject the authorisation
-  eapol_test -r0 -t3 -c /test/config/eapol_test_crl.conf -a 10.5.0.5 -s testing 
+  # broken copied client cert can be used to reject the authorisation
+  openssl req -new -newkey rsa:4096 -nodes -keyout broken_cert.key -out broken_cert.csr -config /test/certs/client.cnf
+  openssl x509 -req -sha256 -days 365 -in  broken_cert.csr -signkey broken_cert.key -out broken_cert.pem
+  cat broken_cert.key >> broken_cert.pem
+  cp broken_cert.pem /test/certs/broken_cert.pem
+  eapol_test -r0 -t3 -c /test/config/eapol_test_broken_cert.conf -a 10.5.0.5 -s testing 
 } 
 
 assert_policy_result() {
