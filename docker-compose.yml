@@ -71,6 +71,7 @@ services:
       ENABLE_CRL: "no"
       EAP_PRIVATE_KEY_PASSWORD: "whatever"
       RADSEC_PRIVATE_KEY_PASSWORD: "whatever"
+    command: sh -c "chown -R freerad:freerad /test && /scripts/bootstrap.sh"
     networks:
       vpcbr:
         ipv4_address: 10.5.0.5
