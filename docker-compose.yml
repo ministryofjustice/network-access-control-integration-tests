@@ -52,6 +52,9 @@ services:
       - "1812/udp"
       - "1813/udp"
       - "2083/tcp"
+    extra_hosts:
+      - "example.com:10.5.0.9"
+      - "www.example.com:10.5.0.9"
     volumes:
       - './test:/test'
       - './authorised_macs:/etc/freeradius/3.0/authorised_macs'
