@@ -45,12 +45,9 @@ serve-admin:
 test: serve setup-tests 
 	$(DOCKER_COMPOSE) exec -T client ./bootstrap.sh
 
-setup-tests: setup-ocsp setup-crl 
+setup-tests: setup-ocsp 
 
 setup-ocsp:
 	$(DOCKER_COMPOSE) exec -T server /test/scripts/ocsp_responder.sh
 
-setup-crl:
-	$(DOCKER_COMPOSE) exec -T server /test/scripts/setup_test_crl.sh
-
-.PHONY: stop clean clone-server clone-admin build shell-client serve test generate-certs setup-ocsp setup-crl authenticate-docker check-container-registry-account-id run-client
+.PHONY: stop clean clone-server clone-admin build shell-client serve test generate-certs setup-ocsp authenticate-docker check-container-registry-account-id run-client
