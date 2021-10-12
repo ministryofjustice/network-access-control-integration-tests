@@ -18,6 +18,7 @@ services:
       DB_PASS: root
       DB_NAME: network_access_control_development_admin
       CONTAINER_NAME: "test-client"
+    user: root
     networks:
       vpcbr:
         ipv4_address: 10.5.0.6
@@ -58,6 +59,7 @@ services:
     volumes:
       - './test:/test'
       - './authorised_macs:/etc/freeradius/3.0/authorised_macs'
+    user: root
     environment:
       DB_HOST: db
       DB_USER: root
@@ -71,13 +73,14 @@ services:
       ENABLE_CRL: "no"
       EAP_PRIVATE_KEY_PASSWORD: "whatever"
       RADSEC_PRIVATE_KEY_PASSWORD: "whatever"
-    command: sh -c "chown -R freerad:freerad /test && /scripts/bootstrap.sh"
+    command: sh -c "/scripts/bootstrap.sh"
     networks:
       vpcbr:
         ipv4_address: 10.5.0.5
       adminnet:
 
   certgenerator:
+    user: root
     build:
       context: ./test/generate_certs
       args:
