@@ -35,6 +35,7 @@ VALUES
   (4,'Reply-Message','Fallback Policy',now(),now(),NULL,2),
   (5,'Reply-Message','Prioritised Policy hit',now(),now(),NULL,3);
 
+
 INSERT INTO `rules` (`id`, `operator`, `value`, `policy_id`, `request_attribute`, `created_at`, `updated_at`)
 VALUES
   (1,'equals','user@example.org',1,'User-Name',now(),now()),
