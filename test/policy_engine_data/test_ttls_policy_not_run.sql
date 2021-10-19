@@ -7,13 +7,13 @@ truncate table sites;
 truncate table clients;
 SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO `sites` (`id`, `name`, `created_at`, `updated_at`)
+INSERT INTO `sites` (`id`, `tag`, `name`, `created_at`, `updated_at`)
 VALUES
-  (1,'Test TTLS Site 1',now(),now());
+  (1,'test_client', 'Test TTLS Site 1',now(),now());
 
-INSERT INTO `clients` (`id`, `tag`, `shared_secret`, `ip_range`, `site_id`, `created_at`, `updated_at`)
+INSERT INTO `clients` (`id`, `shared_secret`, `ip_range`, `site_id`, `created_at`, `updated_at`)
 VALUES
-   (1,'test_client','test','10.5.0.6/32',1,now(),now());
+   (1,'test','10.5.0.6/32',1,now(),now());
 
 INSERT INTO `policies` (`id`, `name`, `description`, `created_at`, `updated_at`, `fallback`)
 VALUES
