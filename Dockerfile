@@ -1,14 +1,16 @@
 ARG SHARED_SERVICES_ACCOUNT_ID
-FROM ${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/alpine:alpine-3-14-0
+FROM ${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/network-access-control-integration-tests:ruby-3-0-2-alpine3-14
 
-ENV TZ UTC
 
-RUN apk update && apk upgrade && apk --no-cache --update add --virtual \
-    build-dependencies gnupg && \
-    apk --no-cache add tzdata nettle-dev openssl-dev curl \
-    bash wpa_supplicant make \
-    openssl build-base gcc libc-dev mysql mysql-client mysql-dev
+RUN apk --no-cache add \
+      wpa_supplicant openssl \
+      ruby ruby-rdoc ruby-bundler ruby-ffi mariadb-connector-c-dev \
+      ruby-dev make gcc libc-dev bash
 
-COPY ./bootstrap.sh ./bootstrap.sh
+COPY Gemfile Gemfile.lock .ruby-version ./
+RUN gem update --system && gem install bundler
+RUN bundle check || bundle install
 
-CMD ["sleep", "1d"]
+COPY . .
+
+CMD ["sleep", "infinity"]
