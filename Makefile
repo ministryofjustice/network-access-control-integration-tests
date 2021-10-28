@@ -43,7 +43,7 @@ serve-admin:
 	cd ${ADMIN} && make authenticate-docker build-dev db-setup serve && cd -
 
 test: serve setup-tests 
-	$(DOCKER_COMPOSE) exec -T client ./bootstrap.sh
+	$(DOCKER_COMPOSE) exec -T client bundle exec rspec
 
 setup-tests: setup-ocsp 
 

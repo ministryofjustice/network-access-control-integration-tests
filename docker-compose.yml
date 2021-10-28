@@ -8,6 +8,7 @@ services:
         SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
     volumes:
       - './test:/test'
+      - './spec:/spec'
     expose:
       - "1812/udp"
       - "1813/udp"
