@@ -8,7 +8,7 @@ describe 'Network Access Control Policy Engine' do
   before do
     db[:sites].insert(id: 1, tag: 'test_client', name: 'Some Site')
     db[:policies].insert(id: 1, name: 'First policy', description: 'First policy', fallback: false, rule_count: 1)
-    db[:clients].insert({id: 1, shared_secret: 'test', ip_range: '10.5.0.6/32', site_id: 1})
+    db[:clients].insert({id: 1, shared_secret: 'test', ip_range: '10.5.0.6/32', site_id: 1, radsec: false})
     db[:site_policies].insert(site_id: 1, policy_id: 1, priority: 1)
     db[:responses].insert(response_attribute: 'Reply-Message', value: 'First Response', policy_id: 1)
   end
