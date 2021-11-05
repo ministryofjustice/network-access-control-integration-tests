@@ -63,18 +63,4 @@ describe 'Network Access Control Policy Engine' do
     expect(result).to_not include("Reply-Message")
     expect(result).to_not include("Value: 'TTLS Policy Matched'")
   end
-
-  xcontext 'REJECT' do
-    before do
-      `openssl req -new -newkey rsa:4096 -nodes -keyout broken_cert.key -out broken_cert.csr -config /test/certs/client.cnf`
-      `openssl x509 -req -sha256 -days 365 -in  broken_cert.csr -signkey broken_cert.key -out broken_cert.pem`
-      `cat broken_cert.key >> broken_cert.pem`
-      `cp broken_cert.pem /test/certs/broken_cert.pem`
-    end
-
-    it 'Does not change the outcome of a Reject in post auth' do
-      result = `eapol_test -t2 -c /test/config/eapol_test_broken_cert.conf -a #{server_ip} -s #{secret_key}`
-      expect(result).to match(/^SUCCESS$/)
-    end
-  end
 end
