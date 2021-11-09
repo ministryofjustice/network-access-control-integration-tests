@@ -24,7 +24,7 @@ clone-server:
 build-dev:
 	${DOCKER_COMPOSE} build
 
-shell-client: 
+shell-client:
 	${DOCKER_COMPOSE} exec client bash
 
 shell-server:
@@ -42,10 +42,13 @@ serve: stop serve-admin build-dev generate-certs
 serve-admin:
 	cd ${ADMIN} && make authenticate-docker build-dev db-setup serve && cd -
 
-test: serve setup-tests 
+serve-server:
+	${DOCKER_COMPOSE} up -d server
+
+test: serve setup-tests
 	$(DOCKER_COMPOSE) exec -T client bundle exec rspec
 
-setup-tests: setup-ocsp 
+setup-tests: setup-ocsp
 
 setup-ocsp:
 	$(DOCKER_COMPOSE) logs server
