@@ -31,11 +31,30 @@ Replace ```SHARED_SERVICES_VAULT_PROFILE_NAME``` and ```SHARED_SERVICES_ACCOUNT_
 make test
 ```
 
-alternatively, you can run the tests from the client container by serving the applications:
+### Run all containers (Admin Portal, Radsecproxy, test-client, NACS RADIUS Server, and CRL endpoint)
 ```bash
 make serve
 ```
-and running the tests from the client container
+
+### Running the NACS Admin Portal
 ```bash
-cd network-access-control-server && make shell-client
+make serve-admin
+```
+
+### Running the NACS RADIUS Server
+Note: the RADIUS server needs the Admin Portal to be running
+
+```bash
+make serve-server
+```
+
+### Running a single test
+Shell into the Client - which runs the tests
+```bash
+make shell-client
+```
+
+Run an independent test:
+```bash
+bundle exec rspec ./spec/name_of_test_file.rb
 ```
