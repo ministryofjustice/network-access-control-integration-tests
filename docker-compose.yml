@@ -6,6 +6,7 @@ services:
       context: .
       args:
         SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
+        LOCAL_DEVELOPMENT: "true"
     volumes:
       - './test:/test'
       - './spec:/spec'
@@ -30,6 +31,7 @@ services:
       context: ./test/radsecproxy
       args:
         SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
+        LOCAL_DEVELOPMENT: "true"
     volumes:
       - './test/certs:/certs'
     expose:
@@ -44,12 +46,13 @@ services:
     networks:
       vpcbr:
         ipv4_address: 10.5.0.8
-  
+
   server:
     build:
       context: ./network-access-control-server/
-      args: 
+      args:
         SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
+        LOCAL_DEVELOPMENT: "true"
     expose:
       - "1812/udp"
       - "1813/udp"
