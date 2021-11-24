@@ -69,9 +69,9 @@ services:
       DB_USER: root
       DB_PASS: root
       DB_NAME: network_access_control_development_admin
-      ENABLE_OCSP: "no"
+      ENABLE_OCSP: "yes"
       OCSP_OVERRIDE_CERT_URL: "yes"
-      OCSP_URL: "127.0.0.1:9999"
+      OCSP_URL: "http://www.example.com:80"
       LOCAL_DEVELOPMENT: "true"
       CONTAINER_NAME: "server"
       ENABLE_CRL: "no"
@@ -92,14 +92,16 @@ services:
         SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
     command: sh -c "/bootstrap.sh"
 
-  crl:
+  ocsp:
     build:
-      context: ./crl
+      context: ./ocsp
       args:
         SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
     volumes:
-      - ./crl/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - './test/certs/ca.crl:/test/ca.crl'
+      - ./ocsp/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - './test:/test'
+    expose:
+      - "80/udp"
     networks:
       vpcbr:
         ipv4_address: 10.5.0.9
