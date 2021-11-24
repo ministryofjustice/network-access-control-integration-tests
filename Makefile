@@ -47,7 +47,7 @@ serve-admin:
 serve-server:
 	${DOCKER_COMPOSE} up -d server
 
-test: setup-ocsp
+test: serve
 	$(DOCKER_COMPOSE) exec -T client bundle exec rspec
 
 setup-ocsp:
