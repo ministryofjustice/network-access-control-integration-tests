@@ -33,8 +33,10 @@ shell-server:
 generate-certs:
 	./test/scripts/generate_certs.sh
 
-serve: stop serve-admin build-dev generate-certs
-	${DOCKER_COMPOSE} up -d crl
+serve: stop serve-admin build-dev generate-certs bring-containers-up setup-ocsp
+
+bring-containers-up:
+	${DOCKER_COMPOSE} up -d ocsp
 	${DOCKER_COMPOSE} up -d server
 	${DOCKER_COMPOSE} up -d client
 	${DOCKER_COMPOSE} up -d radsecproxy
@@ -45,12 +47,10 @@ serve-admin:
 serve-server:
 	${DOCKER_COMPOSE} up -d server
 
-test: serve setup-tests
+test: setup-ocsp
 	$(DOCKER_COMPOSE) exec -T client bundle exec rspec
 
-setup-tests: setup-ocsp
-
 setup-ocsp:
-	$(DOCKER_COMPOSE) exec -T server /test/scripts/ocsp_responder.sh
+	$(DOCKER_COMPOSE) exec -T ocsp /test/scripts/ocsp_responder.sh
 
 .PHONY: stop clean clone-server clone-admin build shell-client serve test generate-certs setup-ocsp authenticate-docker check-container-registry-account-id run-client

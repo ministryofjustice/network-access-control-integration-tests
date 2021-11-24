@@ -65,5 +65,15 @@ describe 'Network Access Control Authentication Methods' do
     end
   end
 
-  xit 'CRL'
+  context 'Revocation status' do
+    it 'Does not authenticate with an OCSP revoked certificate' do
+      test_command = `eapol_test -t2 -c /test/config/eapol_test_ocsp.conf -a #{server_ip} -s #{secret_key}`
+      expect(test_command).to match(/^FAILURE$/)
+    end
+
+    it 'Does not authenticate with an CRL revoked certificate' do
+      test_command = `eapol_test -t2 -c /test/config/eapol_test_crl.conf -a #{server_ip} -s #{secret_key}`
+      expect(test_command).to match(/^FAILURE$/)
+    end
+  end
 end
