@@ -48,10 +48,13 @@ serve-admin:
 	cd ${ADMIN} && make authenticate-docker build-dev db-setup serve && cd -
 
 fetch-latest-policy-engine:
-	curl https://raw.githubusercontent.com/ministryofjustice/network-access-control-server/main/radius/mods-config/python3/policyengine.py >> ./policy_engine_schema_test_client/test/policy_engine.py
+	curl https://raw.githubusercontent.com/ministryofjustice/network-access-control-server/main/radius/mods-config/python3/policyengine.py > ./policy_engine_schema_test_client/test/policy_engine.py
 
 serve-schema-test-client: fetch-latest-policy-engine
 	${DOCKER_COMPOSE} up -d --build schema-test-client
+
+test-schema:
+	${DOCKER_COMPOSE} exec schema-test-client python3 ./test/test_schema.py
 
 serve-server:
 	${DOCKER_COMPOSE} up -d server
