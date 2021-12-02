@@ -24,10 +24,10 @@ class test_schema(unittest.TestCase):
     cursor = conn.cursor()
     cursor.execute("insert into sites (id, name, tag) values (%s, %s,  %s);",(1, 'Site1','site_1'))
     cursor.execute("insert into policies (id, name, description, fallback) values (%s, %s, %s, %s);",(1,'Fallback Policy','whatever', True))
-    cursor.execute("insert into policies (id, name, description, fallback) values (%s, %s, %s, %s);",(2,'Non-fallback Policy','whatever', False))
+    cursor.execute("insert into policies (id, name, description, fallback, rule_count) values (%s, %s, %s, %s, %s);",(2,'Non-fallback Policy','whatever', False, 1))
     cursor.execute("insert into responses (response_attribute, value, policy_id) values (%s, %s, %s);",('Reply-Message','Hello, this is fallback', 1))
     cursor.execute("insert into responses (response_attribute, value, policy_id) values (%s, %s, %s);",('Reply-Message','Bye, this is not fallback', 2))
-    cursor.execute("insert into rules (request_attribute, operator, value, policy_id) values (%s, %s, %s, %s);",('Tunnel-Type','equals', "Vlan", 2))
+    cursor.execute("insert into rules (request_attribute, operator, value, policy_id) values (%s, %s, %s, %s);",('Tunnel-Type','equals', "VLAN", 2))
     cursor.execute("insert into site_policies (site_id, policy_id, priority) values (%s, %s, %s);",(1, 1, None))
     cursor.execute("insert into site_policies (site_id, policy_id, priority) values (%s, %s, %s);",(1, 2, 1))
     conn.commit()
@@ -47,6 +47,11 @@ class test_schema(unittest.TestCase):
     payload = {'EAP-Type': 'TLS', 'Client-Shortname': 'site_1'}
     result = policy_engine.post_auth(payload)
     self.assertEqual(result, ('OK', {'reply': (('Reply-Message', 'Hello, this is fallback'),)}))
+
+  def test_policy(self):
+    payload = {'EAP-Type': 'TLS', 'Client-Shortname': 'site_1', 'Tunnel-Type': 'VLAN'}
+    result = policy_engine.post_auth(payload)
+    self.assertEqual(result, ('OK', {'reply': (('Reply-Message', 'Bye, this is not fallback'),)}))
 
 
 if __name__ == '__main__':
