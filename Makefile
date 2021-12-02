@@ -27,6 +27,9 @@ build-dev:
 shell-client:
 	${DOCKER_COMPOSE} exec client bash
 
+shell-schema-test-client:
+	${DOCKER_COMPOSE} exec schema-test-client bash
+
 shell-server:
 	${DOCKER_COMPOSE} exec server bash
 
@@ -43,6 +46,12 @@ bring-containers-up:
 
 serve-admin:
 	cd ${ADMIN} && make authenticate-docker build-dev db-setup serve && cd -
+
+fetch-latest-policy-engine:
+	curl https://raw.githubusercontent.com/ministryofjustice/network-access-control-server/main/radius/mods-config/python3/policyengine.py >> ./policy_engine_schema_test_client/test/policy_engine.py
+
+serve-schema-test-client: fetch-latest-policy-engine
+	${DOCKER_COMPOSE} up -d --build schema-test-client
 
 serve-server:
 	${DOCKER_COMPOSE} up -d server
