@@ -43,6 +43,7 @@ bring-containers-up:
 	${DOCKER_COMPOSE} up -d server
 	${DOCKER_COMPOSE} up -d client
 	${DOCKER_COMPOSE} up -d radsecproxy
+	${DOCKER_COMPOSE} up -d schema-test-client
 
 serve-admin:
 	cd ${ADMIN} && make authenticate-docker build-dev db-setup serve && cd -
