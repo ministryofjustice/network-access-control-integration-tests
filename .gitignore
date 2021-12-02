@@ -1,3 +1,9 @@
 network-access-control-admin/
 network-access-control-server/
 test/certs
+
+policy_engine_schema_test_client/stubs/radiusd
+policy_engine_schema_test_client/test/policyengine.py
+!__init__.py
+policy_engine_schema_test_client/test/__pycache__
+

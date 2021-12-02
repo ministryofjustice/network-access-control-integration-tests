@@ -107,6 +107,24 @@ services:
         ipv4_address: 10.5.0.9
       adminnet:
 
+  schema-test-client:
+    build:
+      context: ./policy_engine_schema_test_client
+      args:
+        SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: network_access_control_development_admin
+    volumes:
+      - './policy_engine_schema_test_client/test:/test'
+      - './policy_engine_schema_test_client/stubs/radiusd:/usr/local/lib/python3.8/site-packages/radiusd'
+    expose:
+      - "80/udp"
+    networks:
+      adminnet:
+
 networks:
   vpcbr:
     name: vpcbr
