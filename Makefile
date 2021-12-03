@@ -49,7 +49,7 @@ serve-admin:
 	cd ${ADMIN} && make authenticate-docker build-dev db-setup serve && cd -
 
 setup-admin-db:
-	cd ${ADMIN} && make authenticate-docker db-setup && cd -
+	cd ${ADMIN} && make authenticate-docker build-dev db-setup && cd -
 
 fetch-latest-policy-engine:
 	curl https://raw.githubusercontent.com/ministryofjustice/network-access-control-server/main/radius/mods-config/python3/policyengine.py > ./policy_engine_schema_test_client/test/policy_engine.py
