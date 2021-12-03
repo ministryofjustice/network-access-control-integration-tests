@@ -54,7 +54,7 @@ fetch-latest-policy-engine:
 serve-schema-test-client: fetch-latest-policy-engine
 	${DOCKER_COMPOSE} up -d --build schema-test-client
 
-test-schema:
+test-schema: serve-schema-test-client
 	${DOCKER_COMPOSE} exec schema-test-client python3 ./test/test_schema.py
 
 serve-server:
