@@ -44,11 +44,14 @@ class test_schema(unittest.TestCase):
 
 
   def test_fallback_policy(self):
+    print("test policy engine hits fallback policy")
     payload = {'EAP-Type': 'TLS', 'Client-Shortname': 'site_1'}
     result = policy_engine.post_auth(payload)
     self.assertEqual(result, ('OK', {'reply': (('Reply-Message', 'Hello, this is fallback'),)}))
 
+
   def test_policy(self):
+    print("test policy engine hits policy")
     payload = {'EAP-Type': 'TLS', 'Client-Shortname': 'site_1', 'Tunnel-Type': 'VLAN'}
     result = policy_engine.post_auth(payload)
     self.assertEqual(result, ('OK', {'reply': (('Reply-Message', 'Bye, this is not fallback'),)}))
