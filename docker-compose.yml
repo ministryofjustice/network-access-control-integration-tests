@@ -116,7 +116,7 @@ services:
       DB_HOST: db
       DB_USER: root
       DB_PASS: root
-      DB_NAME: network_access_control_development_admin
+      DB_NAME: moj_network_access_control_admin_test
     volumes:
       - './policy_engine_schema_test_client/test:/test'
       - './policy_engine_schema_test_client/stubs/radiusd:/usr/local/lib/python3.8/site-packages/radiusd'
