@@ -1,6 +1,4 @@
-ARG SHARED_SERVICES_ACCOUNT_ID
-FROM ${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/network-access-control-integration-tests:ruby-3-0-2-alpine3-14
-
+FROM ruby:3.0.2-alpine3.14
 
 RUN apk --no-cache add \
       wpa_supplicant openssl \

@@ -2,11 +2,8 @@ DOCKER_COMPOSE = docker-compose -f docker-compose.yml
 ADMIN=network-access-control-admin
 CLIENT=network-access-control-integration-tests
 
-authenticate-docker: check-container-registry-account-id
+authenticate-docker:
 	./authenticate_docker.sh
-
-check-container-registry-account-id:
-	./check_container_registry_account_id.sh
 
 stop:
 	${DOCKER_COMPOSE} down
@@ -66,4 +63,4 @@ test: serve
 setup-ocsp:
 	$(DOCKER_COMPOSE) exec -T ocsp /test/scripts/ocsp_responder.sh
 
-.PHONY: stop clean clone-server clone-admin build shell-client serve test generate-certs setup-ocsp authenticate-docker check-container-registry-account-id run-client
+.PHONY: stop clean clone-server clone-admin build shell-client serve test generate-certs setup-ocsp authenticate-docker run-client
