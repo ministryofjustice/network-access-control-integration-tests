@@ -55,6 +55,8 @@ test-schema: serve-schema-test-client
 	${DOCKER_COMPOSE} exec -T schema-test-client python3 ./test/test_schema.py
 
 serve-server:
+	${DOCKER_COMPOSE} stop server
+	${DOCKER_COMPOSE} build server
 	${DOCKER_COMPOSE} up -d server
 
 test: serve
