@@ -76,7 +76,6 @@ services:
       ENABLE_CRL: "no"
       EAP_PRIVATE_KEY_PASSWORD: "whatever"
       RADSEC_PRIVATE_KEY_PASSWORD: "whatever"
-      VERBOSE_LOGGING: "true"
     command: sh -c "/scripts/bootstrap.sh"
     networks:
       vpcbr:
