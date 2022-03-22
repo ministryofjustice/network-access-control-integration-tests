@@ -53,16 +53,16 @@ services:
         LOCAL_DEVELOPMENT: "true"
     expose:
       - "1812/udp"
-      - "1813/udp"
+      - "18120/udp"
       - "2083/tcp"
     extra_hosts:
       - "example.com:10.5.0.9"
       - "www.example.com:10.5.0.9"
     volumes:
       - './test:/test'
-      - './authorised_macs:/etc/freeradius/3.0/authorised_macs'
-      - './test/certs:/etc/freeradius/3.0/certs'
-      - './test_clients.conf:/etc/freeradius/3.0/clients.conf'
+      - './authorised_macs:/usr/local/etc/raddb/authorised_macs'
+      - './test/certs:/usr/local/etc/raddb/certs'
+      - './test_clients.conf:/usr/local/etc/raddb/clients.conf'
     user: root
     environment:
       DB_HOST: db
