@@ -2,7 +2,7 @@
 
 set -e
 
-prefix=/etc/freeradius/3.0
+prefix=/etc/raddb/
 
 append_ocsp_endpoints() {
   echo "authorityInfoAccess = OCSP;URI:http://www.example.com:8080" >> ca.cnf

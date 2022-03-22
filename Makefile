@@ -43,7 +43,7 @@ bring-containers-up:
 	${DOCKER_COMPOSE} up -d schema-test-client
 
 serve-admin:
-	cd ${ADMIN} && make authenticate-docker build-dev db-setup serve && cd -
+	cd ${ADMIN} && make authenticate-docker build-dev serve && cd -
 
 fetch-latest-policy-engine:
 	curl https://raw.githubusercontent.com/ministryofjustice/network-access-control-server/main/radius/mods-config/python3/policyengine.py > ./policy_engine_schema_test_client/test/policy_engine.py
