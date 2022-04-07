@@ -63,4 +63,14 @@ describe 'Network Access Control Policy Engine' do
     expect(result).to_not include("Reply-Message")
     expect(result).to_not include("Value: 'TTLS Policy Matched'")
   end
+
+  it 'can change an Access-Accept to an Access-Reject' do
+    db[:policies].insert(id: 2, name: 'Fallback', description: 'Some fallback policy', fallback: true)
+    db[:site_policies].insert(id: 2, site_id: 1, policy_id: 2)
+    db[:responses].insert(response_attribute: 'Post-Auth-Type', value: 'Reject', policy_id: 2)
+
+    result = `eapol_test -t2 -c /test/config/eapol_test_tls.conf -a #{server_ip} -s #{secret_key}`
+
+    expect(result).to match(/^FAILURE$/)
+  end
 end
