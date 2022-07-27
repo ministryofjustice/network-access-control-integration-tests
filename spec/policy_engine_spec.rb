@@ -24,6 +24,19 @@ describe 'Network Access Control Policy Engine' do
     expect(result).to include("Value: 'Fallback Policy'")
   end
 
+  it 'returns different responses for different device types expressed in the TLS-Client-Cert-Subject-Alt-Name-Dns field' do
+    db[:policies].insert(id: 2, name: 'Device Type Policy', description: 'Some description', fallback: false)
+    db[:site_policies].insert(id: 2, site_id: 1, policy_id: 2)
+    db[:responses].insert(response_attribute: 'Reply-Message', value: 'You are a laptop', policy_id: 2)
+    db[:rules].insert(operator: 'contains', value: 'Laptop', policy_id: 2, request_attribute: 'TLS-Client-Cert-Subject-Alt-Name-Dns')
+
+    result = `eapol_test -t2 -c /test/config/eapol_test_tls.conf -a #{server_ip} -s #{secret_key}`
+
+    expect(result).to include("Reply-Message")
+    expect(result).to include("Value: 'You are a laptop'")
+  end
+
+
   it 'Prioritises policies' do
     db[:policies].insert(id: 2, name: 'Second policy', description: 'Second policy', fallback: false, rule_count: 1)
     db[:responses].insert(response_attribute: 'Reply-Message', value: 'Second Response', policy_id: 2)
