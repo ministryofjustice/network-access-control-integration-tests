@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 prefix=/etc/raddb/
 
@@ -10,6 +10,11 @@ append_ocsp_endpoints() {
 
 generate_certs() {
   make
+}
+
+generate_client_cert_with_alt_dns_name() {
+  openssl req -new -key client.key -out client.csr -config client.cnf
+  openssl x509 -req -days 365 -in client.csr -CA ca.pem -CAkey ca.key -out client.pem -CAcreateserial -extensions req_ext -extfile client.cnf -passin pass:whatever
 }
 
 generate_revoked_client_certs() {
@@ -50,6 +55,7 @@ generate_revoked_client_certs() {
 main() {
   append_ocsp_endpoints
   generate_certs
+  generate_client_cert_with_alt_dns_name
   generate_revoked_client_certs
   sleep infinity
 }
