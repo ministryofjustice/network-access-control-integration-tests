@@ -28,6 +28,8 @@ describe 'Network Access Control Policy Engine' do
     db[:policies].insert(id: 2, name: 'Device Type Policy', description: 'Some description', fallback: false, rule_count: 1)
     db[:site_policies].insert(id: 2, site_id: 1, policy_id: 2)
     db[:responses].insert(response_attribute: 'Reply-Message', value: 'You are a laptop', policy_id: 2)
+
+    # client certificate is generated using xpextensions (test/generate_certs/xpextensions) where the SAN is defined
     db[:rules].insert(operator: 'contains', value: 'Laptop', policy_id: 2, request_attribute: 'TLS-Client-Cert-Subject-Alt-Name-Dns')
 
     result = `eapol_test -t2 -c /test/config/eapol_test_tls.conf -a #{server_ip} -s #{secret_key}`
