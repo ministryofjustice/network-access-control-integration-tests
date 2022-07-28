@@ -11,7 +11,7 @@ RUN apk update && apk upgrade && apk --no-cache --update add --virtual \
 
 COPY client_crl.cnf /etc/raddb/certs
 COPY client_ocsp.cnf /etc/raddb/certs
-COPY client.cnf /etc/raddb/certs
+COPY xpextensions /etc/raddb/certs
 COPY ocsp.cnf /etc/raddb/certs
 COPY bootstrap.sh /
 
