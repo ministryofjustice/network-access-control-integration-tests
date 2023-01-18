@@ -13,13 +13,13 @@ describe 'Network Access Control Policy Engine' do
     db[:responses].insert(response_attribute: 'Reply-Message', value: 'First Response', policy_id: 1)
   end
 
-  it 'Gets a Fallback policy' do
+  it 'Gets a Fallback policy, when non fallback policy contains no rules to match the request ' do
     db[:policies].insert(id: 2, name: 'Fallback', description: 'Some fallback policy', fallback: true)
     db[:site_policies].insert(id: 2, site_id: 1, policy_id: 2)
     db[:responses].insert(response_attribute: 'Reply-Message', value: 'Fallback Policy', policy_id: 2)
 
-    result = `eapol_test -t2 -c /test/config/eapol_test_tls.conf -a #{server_ip} -s #{secret_key} -N4:x:0x0a090807`
-
+    result = `eapol_test -t2 -c /test/config/eapol_test_tls.conf -a #{server_ip} -s #{secret_key}`
+    
     expect(result).to include("Reply-Message")
     expect(result).to include("Value: 'Fallback Policy'")
   end
@@ -36,6 +36,21 @@ describe 'Network Access Control Policy Engine' do
 
     expect(result).to include("Reply-Message")
     expect(result).to include("Value: 'You are a laptop'")
+  end
+
+  # The TLS-Cert_Issue field should always be present, this test covers Freeradius regressions that
+  # broke the mapping between certificate fields and attributes.
+  it 'returns a policy match based on the TLS-Cert-Issuer attribute' do
+    db[:policies].insert(id: 2, name: 'Device Type Policy', description: 'Some description', fallback: false, rule_count: 1)
+    db[:site_policies].insert(id: 2, site_id: 1, policy_id: 2)
+    db[:responses].insert(response_attribute: 'Reply-Message', value: 'Contains TLS-Cert-Issuer attribute', policy_id: 2)
+
+    db[:rules].insert(operator: 'contains', value: 'Example Certificate Authority', policy_id: 2, request_attribute: 'TLS-Cert-Issuer')
+
+    result = `eapol_test -t2 -c /test/config/eapol_test_tls.conf -a #{server_ip} -s #{secret_key}`
+
+    expect(result).to include("Reply-Message")
+    expect(result).to include("Value: 'Contains TLS-Cert-Issuer attribute'")
   end
 
   it 'Prioritises policies' do
