@@ -6,8 +6,8 @@ describe 'Network Access Control Authentication Methods' do
 
   context 'EAP' do
     it 'Authenticates EAP-TLS' do
-      test_command = `eapol_test -t2 -c /test/config/eapol_test_tls.conf -a #{server_ip} -s #{secret_key}`
-      expect(test_command).to match(/^SUCCESS$/)
+      test_command = 
+      expect(test_command).to match(/^SUCCESS$/)`eapol_test -t2 -c /test/config/eapol_test_tls.conf -a #{server_ip} -s #{secret_key}`
     end
 
     it 'Authenticates EAP-TTLS and EAP-TLS as the inner authentication_method' do

@@ -1,6 +1,6 @@
 FROM alpine:3.17.2
 
-ENV RADSECPROXY_VERSION 1.9.0
+ENV RADSECPROXY_VERSION 1.9.2
 
 RUN apk update && apk upgrade && \
     apk --no-cache --update add --virtual build-dependencies build-base curl gnupg && \
