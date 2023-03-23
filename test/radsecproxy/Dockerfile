@@ -1,4 +1,4 @@
-FROM alpine:3.17.2
+FROM alpine:3.16.4
 
 ENV RADSECPROXY_VERSION 1.9.2
 
@@ -7,12 +7,12 @@ RUN apk update && apk upgrade && \
     apk --no-cache add tzdata nettle-dev openssl-dev openssl && \
     adduser -D -u 52000 radsecproxy && \
     curl -sLo radsecproxy-${RADSECPROXY_VERSION}.tar.gz  \
-        https://github.com/radsecproxy/radsecproxy/releases/download/${RADSECPROXY_VERSION}/radsecproxy-${RADSECPROXY_VERSION}.tar.gz && \
+    https://github.com/radsecproxy/radsecproxy/releases/download/${RADSECPROXY_VERSION}/radsecproxy-${RADSECPROXY_VERSION}.tar.gz && \
     curl  -sLo radsecproxy-${RADSECPROXY_VERSION}.tar.gz.asc \
-        https://github.com/radsecproxy/radsecproxy/releases/download/${RADSECPROXY_VERSION}/radsecproxy-${RADSECPROXY_VERSION}.tar.gz.asc && \
+    https://github.com/radsecproxy/radsecproxy/releases/download/${RADSECPROXY_VERSION}/radsecproxy-${RADSECPROXY_VERSION}.tar.gz.asc && \
     curl -sS https://radsecproxy.github.io/fabian.mauchle.asc | gpg --import - && \
     gpg --verify radsecproxy-${RADSECPROXY_VERSION}.tar.gz.asc \
-                 radsecproxy-${RADSECPROXY_VERSION}.tar.gz && \
+    radsecproxy-${RADSECPROXY_VERSION}.tar.gz && \
     rm  radsecproxy-${RADSECPROXY_VERSION}.tar.gz.asc && \
     tar xvf radsecproxy-${RADSECPROXY_VERSION}.tar.gz && \
     rm radsecproxy-${RADSECPROXY_VERSION}.tar.gz &&\
