@@ -1,4 +1,4 @@
-FROM alpine:3.16.4
+FROM alpine:3.17.5
 
 ENV RADSECPROXY_VERSION 1.9.2
 
