@@ -1,4 +1,4 @@
-FROM alpine:3.17.5
+FROM alpine:3.18.4
 
 ENV RADSECPROXY_VERSION 1.9.2
 
@@ -27,7 +27,7 @@ RUN apk update && apk upgrade && \
     apk del build-dependencies && \
     rm -rf /etc/apk/* /var/cache/apk/* /root/.gnupg
 
-RUN touch /var/run/radsecproxy/radsecproxy.pid 
+RUN touch /var/run/radsecproxy/radsecproxy.pid
 
 COPY ./radsecproxy.conf /etc/
 
