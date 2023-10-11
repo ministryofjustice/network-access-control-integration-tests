@@ -1,4 +1,4 @@
-FROM ruby:3.2.1-alpine3.16
+FROM ruby:3.2.2-alpine3.18
 
 RUN apk --no-cache add \
       wpa_supplicant openssl \
