@@ -13,10 +13,12 @@ clean: stop
 	rm -fr ./network-access-control-admin ./network-access-control-server
 
 clone-admin:
-	git clone https://github.com/ministryofjustice/network-access-control-admin.git
+	git clone git@github.com:ministryofjustice/network-access-control-admin
+	git checkout 606_Spike_to_enable_CRL_for_NACS
 
 clone-server:
-	git clone https://github.com/ministryofjustice/network-access-control-server.git
+	git clone git@github.com:ministryofjustice/network-access-control-server
+	git checkout 606_Spike_to_enable_CRL_for_NACS
 
 build-dev:
 	${DOCKER_COMPOSE} build
