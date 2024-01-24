@@ -74,7 +74,7 @@ services:
       OCSP_URL: "http://www.example.com:80"
       LOCAL_DEVELOPMENT: "true"
       CONTAINER_NAME: "server"
-      ENABLE_CRL: "no"
+      ENABLE_CRL: "yes"
       EAP_PRIVATE_KEY_PASSWORD: "whatever"
       RADSEC_PRIVATE_KEY_PASSWORD: "whatever"
     command: sh -c "/scripts/bootstrap.sh"

@@ -21,12 +21,12 @@ generate_revoked_client_certs() {
     openssl req -batch -passin pass:"whatever" -config client_crl.cnf -new -nodes -keyout client_crl.key -out client_crl.csr
     openssl ca  -batch -passin pass:"whatever" -config ca.cnf -in client_crl.csr -out revoked_client_crl.pem -keyfile ca.key -cert ca.pem
 
-    cat client_crl.key >> revoked_client_crl.pem
+    #cat client_crl.key >> revoked_client_crl.pem
 
-    openssl ca -batch -revoke revoked_client_crl.pem -keyfile ca.key -cert ca.pem -config ca.cnf -passin pass:"whatever"
+    #openssl ca -batch -revoke revoked_client_crl.pem -keyfile ca.key -cert ca.pem -config ca.cnf -passin pass:"whatever"
 
     # regenerate crl pem file
-    openssl ca -batch -gencrl -keyfile ca.key -cert ca.pem -config ca.cnf -passin pass:"whatever" -out crl.pem
+    #openssl ca -batch -gencrl -keyfile ca.key -cert ca.pem -config ca.cnf -passin pass:"whatever" -out crl.pem
   fi
 
   # create a revoked ocsp certificate
