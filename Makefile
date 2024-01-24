@@ -35,6 +35,10 @@ shell-server:
 generate-certs:
 	./test/scripts/generate_certs.sh
 
+clean-generate-certs:
+	rm -rf test/certs/
+	${DOCKER_COMPOSE} down certgenerator
+
 serve: stop serve-admin build-dev generate-certs bring-containers-up setup-ocsp
 
 bring-containers-up:
