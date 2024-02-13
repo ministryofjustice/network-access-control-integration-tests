@@ -33,11 +33,8 @@ shell-server:
 	${DOCKER_COMPOSE} exec server bash
 
 generate-certs:
+	#rm -rf test/certs/
 	./test/scripts/generate_certs.sh
-
-clean-generate-certs:
-	rm -rf test/certs/
-	${DOCKER_COMPOSE} down certgenerator
 
 serve: stop serve-admin build-dev generate-certs bring-containers-up setup-ocsp
 

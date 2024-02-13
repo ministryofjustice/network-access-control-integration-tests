@@ -14,7 +14,10 @@ wait_for_certs() {
     printf "\n"
 }
 
+
+ls ./test/
 docker-compose stop certgenerator
+rm -f -r ./test/certs
 docker-compose up --build -d certgenerator
 certgenerator_id=$(docker ps -aqf "name=certgenerator")
 wait_for_certs server.pem
