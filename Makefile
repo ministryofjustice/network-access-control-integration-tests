@@ -16,7 +16,7 @@ clone-admin:
 	git clone https://github.com/ministryofjustice/network-access-control-admin.git
 
 clone-server:
-	git clone https://github.com/ministryofjustice/network-access-control-server.git
+	git clone https://github.com/ministryofjustice/network-access-control-server.git -b feature/ND-65
 
 build-dev:
 	${DOCKER_COMPOSE} build
