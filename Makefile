@@ -47,7 +47,7 @@ generate-certs: ## Run generate certs script
 	./test/scripts/generate_certs.sh
 
 .PHONY: serve
-serve: ## 
+serve: ## Generate certs, bring dev containers up and run ocsp_responder in oscp container
 	$(MAKE) stop 
 	$(MAKE) serve-admin 
 	$(MAKE) build-dev 
@@ -64,8 +64,8 @@ bring-containers-up: ## Bring all containers up - oscp, server, client, radsecpr
 	${DOCKER_COMPOSE} up -d schema-test-client
 
 .PHONY: serve-admin
-serve-admin: ## 
-	cd ${ADMIN} && make authenticate-docker build-dev serve && cd -
+serve-admin: ## Move into nacs admin dile, generate certs, bring dev containers up and run ocsp_responder in oscp container
+	cd ${ADMIN} && $(MAKE) authenticate-docker build-dev serve && cd -
 
 .PHONY: fetch-latest-policy-engine
 fetch-latest-policy-engine: ## Fetch latest radius policy engine
