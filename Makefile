@@ -24,7 +24,11 @@ clone-admin: ## Clone nacs admin repo
 
 .PHONY: clone-server
 clone-server: ## Clone nacs server repo
-	git clone https://github.com/ministryofjustice/network-access-control-server.git
+	git clone --branch ND-463-nac-server-3_2_3 https://github.com/ministryofjustice/network-access-control-server.git
+	#git clone git@github.com:ministryofjustice/network-access-control-server && \
+#	cd network-access-control-server && \
+#	git checkout -b ND-463-nac-server-3_2_3
+	#git clone https://github.com/ministryofjustice/network-access-control-server.git
 
 .PHONY: build-dev
 build-dev: ## Build dev docker container
@@ -48,11 +52,11 @@ generate-certs: ## Run generate certs script
 
 .PHONY: serve
 serve: ## Generate certs, bring dev containers up and run ocsp_responder in oscp container
-	$(MAKE) stop 
-	$(MAKE) serve-admin 
-	$(MAKE) build-dev 
-	$(MAKE) generate-certs 
-	$(MAKE) bring-containers-up 
+	$(MAKE) stop
+	$(MAKE) serve-admin
+	$(MAKE) build-dev
+	$(MAKE) generate-certs
+	$(MAKE) bring-containers-up
 	$(MAKE) setup-ocsp
 
 .PHONY: bring-containers-up
@@ -82,7 +86,7 @@ test-schema: ## Build schema-test and run tests
 	${DOCKER_COMPOSE} exec -T schema-test-client python3 ./test/test_schema.py
 
 .PHONY: serve-server
-serve-server: ## Build server container 
+serve-server: ## Build server container
 	${DOCKER_COMPOSE} stop server
 	${DOCKER_COMPOSE} build server
 	${DOCKER_COMPOSE} up -d server
