@@ -6,7 +6,7 @@ RUN apk --no-cache add \
       ruby-dev make gcc libc-dev bash
 
 COPY Gemfile Gemfile.lock .ruby-version ./
-RUN gem update --system && gem install bundler -v '> 2.1.4'
+RUN gem update --system && gem install bundler
 RUN bundle check || bundle install
 
 COPY . .
