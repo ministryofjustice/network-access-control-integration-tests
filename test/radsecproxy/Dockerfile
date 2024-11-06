@@ -25,7 +25,7 @@ RUN apk update && apk upgrade && \
     touch /var/log/radsecproxy/radsecproxy.log && \
     chown -R radsecproxy:radsecproxy /var/log/radsecproxy /var/run/radsecproxy && \
     apk del build-dependencies && \
-    rm -rf /etc/apk/* /var/cache/apk/* /root/.gnupg
+    rm -rf /etc/apk/* /var/cache/apk/* /root/.gnupg || true
 
 RUN touch /var/run/radsecproxy/radsecproxy.pid
 
